@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "SmartAlloc.h"
+
+void printArgs(char **args) {
+   printf("Made it into printArgs\n");
+   while (*args) {
+      printf("Made it into the while loop in printArgs\n");
+      printf("%s\n", *args++);
+   }
+}
+
+void burnArgs(char **args, int argc) {
+   while (argc--) {
+      **args = 'X';
+      *args++ = NULL;
+   }
+}
+
+void copyArgs(char ***dupArgs, char **argv) {   
+   char **temp = *dupArgs;
+   
+   while (*++argv) {     
+      temp = calloc(sizeof(char *), 1);
+      *temp = calloc(strlen(*argv) + 1, sizeof(char));    
+      *temp = strcpy(*temp, *argv);
+      printf("New string: %s\n", *temp);
+      temp++;      
+   }  
+}
+
+void main(int argc, char **argv) {
+   char **dupArgs;
+   
+   copyArgs(&dupArgs, argv);   
+   burnArgs(argv, argc);
+   printf("Made it right before printArgs\n");
+   printArgs(dupArgs);
+   printf("Space: %d\n", report_space());
+}

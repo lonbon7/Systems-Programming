@@ -1,0 +1,142 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
+
+#include "LZWCmp.h"
+#include "SmartAlloc.h"
+
+static void *InitCodeSet();
+static void AddNode(TreeNode *, TreeNode *, void *);
+static void InitBST(LZWCmp *);
+static UInt FindCode(UChar *, TreeNode *, void *);
+static void DumpTree(TreeNode *);
+
+static int baseCode;
+static int minCode;
+
+void LZWCmpInit(LZWCmp *cmp, CodeSink sink, void *sinkState, int recycleCode,
+ int traceFlags) {
+   cmp->root = NULL;
+   cmp->sink = sink;
+   cmp->sinkState = sinkState;
+   cmp->numBits = INIT_NUM_BITS;
+   cmp->maxCode = INIT_MAX_CODE;
+   cmp->recycleCode = recycleCode;
+   cmp->nextInt = 0; //Is the next int from input
+   cmp->bitsUsed = 0; //For bit packing of nextInt when bit packing is implemented
+   cmp->cst = InitCodeSet();   
+   InitBST(cmp);
+   cmp->pCode.data = calloc(sizeof(char), SIZE_INCR); //space is 1 KB
+   cmp->pCode.size = 0; //Actual space taken up
+   cmp->pCodeLimit = SIZE_INCR; //Total space for string, initialized to 1 KB
+   cmp->traceFlags = traceFlags;    
+   baseCode = cmp->root->cNum;
+   minCode = baseCode;
+ }
+ 
+void LZWCmpEncode(LZWCmp *cmp, UChar sym) {
+   State *state = cmp->sinkState;
+   UInt code = sym; //Change for part C
+   printf("Code: %u\nSym: %u\n", code, sym);
+   if (cmp->pCode.size == cmp->pCodeLimit) {
+      cmp->pCode.data = realloc(cmp->pCode.data, cmp->pCode.size + SIZE_INCR);
+      cmp->pCodeLimit += SIZE_INCR;
+   }
+   //Change for part C   
+   /*cmp->pCode.data[cmp->pCode.size++] = sym;  //Call encode multiple times from here.   
+   code = FindCode(cmp->pCode.data, cmp->root, cmp->cst);*/
+   
+   if (cmp->traceFlags & TRACE_CODES)
+      printf("Sending code %d\n", code);
+   if (cmp->traceFlags & TRACE_TREE) {
+      DumpTree(cmp->root);
+      printf("|\n\n");
+   } 
+      
+   cmp->sink(state, code, state->end);
+}
+
+void LZWCmpStop(LZWCmp *cmp) {
+   State *state = cmp->sinkState;
+   state->end = true;
+   cmp->sink(state, EOF_CODE, state->end);
+}
+   
+
+void LZWCmpDestruct(LZWCmp *cmp) {}
+
+void LZWCmpClearFreelist() {}
+//InitCodeSet is good.
+static void *InitCodeSet() {
+   int numCodes;
+   void *set = CreateCodeSet(RECYCLE_CODE);
+   
+   for (numCodes = 0; numCodes < RECYCLE_CODE; numCodes++)
+      NewCode(set, numCodes);
+   
+   return set;
+}
+//AddNode is good.
+static void AddNode(TreeNode *root, TreeNode *newNode, void *codeSet) {     
+   assert(root);
+   
+   if (strcmp(GetCode(codeSet, newNode->cNum).data, 
+    GetCode(codeSet, root->cNum).data) > 0) {
+      FreeCode(codeSet, newNode->cNum);
+      FreeCode(codeSet, root->cNum);
+      
+      if (root->right)
+         AddNode(root->right, newNode, codeSet);
+      else
+         root->right = newNode;
+   }
+   else {
+      FreeCode(codeSet, newNode->cNum);
+      FreeCode(codeSet, root->cNum);
+      
+      if (root->left)
+         AddNode(root->left, newNode, codeSet);
+      else
+         root->left = newNode;
+   }   
+}
+//InitBST is good
+static void InitBST(LZWCmp *cmp) {
+   int numCodes;
+   TreeNode *node;
+   
+   for (numCodes = 0; numCodes < NUM_SYMS; numCodes++) {
+      node = calloc(sizeof(TreeNode), 1);
+      node->cNum = numCodes;
+      
+      if (cmp->root)
+         AddNode(cmp->root, node, cmp->cst);
+      else
+         cmp->root = node;
+   }
+   cmp->curLoc = cmp->root;
+   cmp->curCode = GetCode(cmp->cst, cmp->root->cNum);
+   FreeCode(cmp->cst, cmp->root->cNum);
+}
+
+static UInt FindCode(UChar *sym, TreeNode *root, void *codeSet) {//Modify this for codes that aren't in the tree and new codes.  
+   if (strcmp(sym, GetCode(codeSet, root->cNum).data) == 0) {
+      FreeCode(codeSet, root->cNum);
+      return root->cNum;
+   }
+   else if (strcmp(sym, GetCode(codeSet, root->cNum).data) < 0) {
+      FreeCode(codeSet, root->cNum);
+      return FindCode(sym, root->left, codeSet);
+   }
+   else
+      return FindCode(sym, root->right, codeSet);
+}
+
+static void DumpTree(TreeNode *root) {//Alter this for multiple codes
+   if (root) {
+      printf("|%d", root->cNum);
+      DumpTree(root->right);
+      DumpTree(root->left);
+   }   
+}

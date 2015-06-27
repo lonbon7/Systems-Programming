@@ -1,0 +1,3 @@
+gcc mmind.c
+./a.exe < test3.in > my3.out
+diff my3.out test3.out

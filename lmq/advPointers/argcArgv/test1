@@ -1,0 +1,2 @@
+gcc DupArgs.c SmartAlloc.c -o code
+./code.exe alpha beta gamma

@@ -1,0 +1,3 @@
+echo diffing test9 output
+./Compress -tcbrs myfi9.in > my9.out
+diff my9.out test9.out

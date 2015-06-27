@@ -1,0 +1,2 @@
+echo diffing test10 output
+./Compress -cbrs myfi10.in > my 

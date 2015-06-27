@@ -1,0 +1,25 @@
+Enter maxchar, dimensions, and seed => 
+ 1. Enter your guess:     
+model in match: ADEA
+guess in match: ADFF
+2 Exact and 0 Inexact
+
+ 2. Enter your guess:     
+model in match: ADEA
+guess in match: DAAA
+1 Exact and 2 Inexact
+
+ 3. Enter your guess:     
+model in match: ADEA
+guess in match: EEFF
+0 Exact and 1 Inexact
+
+ 4. Enter your guess:     
+model in match: ADEA
+guess in match: ADEA
+4 Exact and 0 Inexact
+
+
+Current average:  4.000
+
+Another game [Y/N]? 

@@ -1,0 +1,9 @@
+printf("\nmodel in match: ");
+for (i = 0; i < dimensions; i++)
+   printf("%c", model[i]);
+printf("\n");
+printf("guess in match: ");
+for (i = 0; i < dimensions; i++)
+   printf("%c", guess[i]);
+printf("\n");
+

@@ -1,0 +1,124 @@
+Element size: 42
+Array beginning: 2337216
+insNdx: 2337258
+toInsert: 2337258
+insNdx at beginning of while loop: 2337258
+insNdx - elementSize: 2337216
+insNdx after while loop: 2337216
+insNdx: 2337300
+toInsert: 2337300
+insNdx at beginning of while loop: 2337300
+insNdx - elementSize: 2337258
+insNdx after while loop: 2337258
+insNdx at beginning of while loop: 2337258
+insNdx - elementSize: 2337216
+insNdx after while loop: 2337216
+insNdx: 2337342
+toInsert: 2337342
+insNdx: 2337384
+toInsert: 2337384
+insNdx: 2337426
+toInsert: 2337426
+insNdx at beginning of while loop: 2337426
+insNdx - elementSize: 2337384
+insNdx after while loop: 2337384
+insNdx at beginning of while loop: 2337384
+insNdx - elementSize: 2337342
+insNdx after while loop: 2337342
+John Smith
+Jane Smith
+Jill Jones
+Sue Johnson
+Susan Johnson
+Sim Taylor
+Element size: 42
+Array beginning: 2337216
+insNdx: 2337258
+toInsert: 2337258
+insNdx: 2337300
+toInsert: 2337300
+insNdx at beginning of while loop: 2337300
+insNdx - elementSize: 2337258
+insNdx after while loop: 2337258
+insNdx: 2337342
+toInsert: 2337342
+insNdx at beginning of while loop: 2337342
+insNdx - elementSize: 2337300
+insNdx after while loop: 2337300
+insNdx at beginning of while loop: 2337300
+insNdx - elementSize: 2337258
+insNdx after while loop: 2337258
+insNdx at beginning of while loop: 2337258
+insNdx - elementSize: 2337216
+insNdx after while loop: 2337216
+insNdx: 2337384
+toInsert: 2337384
+insNdx at beginning of while loop: 2337384
+insNdx - elementSize: 2337342
+insNdx after while loop: 2337342
+insNdx at beginning of while loop: 2337342
+insNdx - elementSize: 2337300
+insNdx after while loop: 2337300
+insNdx at beginning of while loop: 2337300
+insNdx - elementSize: 2337258
+insNdx after while loop: 2337258
+insNdx at beginning of while loop: 2337258
+insNdx - elementSize: 2337216
+insNdx after while loop: 2337216
+insNdx: 2337426
+toInsert: 2337426
+insNdx at beginning of while loop: 2337426
+insNdx - elementSize: 2337384
+insNdx after while loop: 2337384
+John Smith
+Jane Smith
+Jill Jones
+Jue Johnson
+Jusan Johnson
+Jim Taylor
+Element size: 8
+Array beginning: 2337152
+insNdx: 2337160
+toInsert: 2337160
+insNdx: 2337168
+toInsert: 2337168
+insNdx: 2337176
+toInsert: 2337176
+insNdx at beginning of while loop: 2337176
+insNdx - elementSize: 2337168
+insNdx after while loop: 2337168
+insNdx: 2337184
+toInsert: 2337184
+insNdx at beginning of while loop: 2337184
+insNdx - elementSize: 2337176
+insNdx after while loop: 2337176
+insNdx: 2337192
+toInsert: 2337192
+insNdx: 2337200
+toInsert: 2337200
+insNdx at beginning of while loop: 2337200
+insNdx - elementSize: 2337192
+insNdx after while loop: 2337192
+insNdx: 2337208
+toInsert: 2337208
+insNdx at beginning of while loop: 2337208
+insNdx - elementSize: 2337200
+insNdx after while loop: 2337200
+1.100000 -2.200000 3.300000 -4.200000 5.500000 -6.600000 7.700000 -8.800000 
+Element size: 8
+Array beginning: 2337088
+insNdx: 2337096
+toInsert: 2337096
+insNdx: 2337104
+toInsert: 2337104
+insNdx: 2337112
+toInsert: 2337112
+insNdx: 2337120
+toInsert: 2337120
+insNdx: 2337128
+toInsert: 2337128
+insNdx: 2337136
+toInsert: 2337136
+insNdx: 2337144
+toInsert: 2337144
+alpha beta gamma delta epsilon pi phi omega 

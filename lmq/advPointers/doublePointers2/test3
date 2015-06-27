@@ -1,0 +1,2 @@
+gcc ConcatLists.c -o code
+./code.exe < test3.in 

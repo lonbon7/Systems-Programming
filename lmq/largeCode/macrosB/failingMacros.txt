@@ -1,0 +1,4 @@
+(x, y)
+*swapX = &(x), *swapY = &(y)
+*swapX = *swapY
+*swapY = swapZ

@@ -1,0 +1,32 @@
+#include <stdio.h>
+
+const int SIZE = 5;
+const int NUMVALS = 6;
+const int MAX = 31;
+
+int main() {
+   int vals = 0;
+   short which, newVal;
+   char cmd;
+   
+   while (EOF != scanf(" %c", &cmd)) {
+      if (cmd == 'S') {  // Set value
+         scanf("%hd %hd", &which, &newVal);
+         if (which < 0 || which >= NUMVALS)
+            printf("Bad value index %d\n", which);
+         else if (newVal < 0 || newVal > MAX )
+            printf("Bad value %d\n", newVal);
+         else {
+            /*printf("Vals before: %X\n", vals);
+            printf("newVal: %X\n", newVal);
+            printf("Which: %d\n", which);*/
+            vals=vals&~((1<<SIZE)- 1 << SIZE * which) | newVal << SIZE * which;
+            //printf("Vals after: %X\n", vals);
+         }
+      }
+      else if (cmd == 'P') { // Print value
+         for (newVal = 0; newVal < NUMVALS; newVal++)
+            printf("Value %d is %d\n", newVal, vals & (1 << SIZE)-1 << newVal * SIZE);
+      }
+   }
+}

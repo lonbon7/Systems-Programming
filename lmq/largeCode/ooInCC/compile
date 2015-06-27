@@ -1,0 +1,1 @@
+gcc List.c ListMain.c SmartAlloc.c -o code

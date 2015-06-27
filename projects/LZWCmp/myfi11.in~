@@ -1,0 +1,86 @@
+LZW Compressor
+Specification
+
+
+1. Overview
+
+This assignment creates a Compress application that LZW-compresses one or more files, to a format compatible with the TestExp utility that will be supplied as an executable.
+
+
+This requires implementation of an LZWCmp.h/c file pair, driven by a main program in a Compress.c file, and using the CodeSets.c file you built in a lab. The main accepts one or more filenames as commandline arguments, and uses LZWCmp to compress each, outputting the compressed data to files, as a series of 32-bit integers in hexadecimal, comprising the LZW codes that may in turn be read and decompressed by TestExp.
+
+
+You are expected already to understand LZW compression from website references, in-class lectures and exercises and from the companion lecture to this specification.
+
+
+2. General Requirements
+
+Write two files, Compress.c and LZWCmp.c. Use also your CodeSets.c file from an earlier exercise, along with the CodeSets.h file supplied in the project materials.
+
+
+LZWCmp.c
+
+LZWCmp.c gives implementations of the five LZW functions defined in the LZWCmp.h file, and may include additional static functions to support those five LZW functions. See the LZWCmp.h file for details on these.
+Compress.c
+
+Compress.c contains a main program, and a CodeSink function, to work with the LZWCmp.c file. It can be run thus:
+
+
+Compress file1 file2 ...
+
+
+Compress produces a compressed data file with a .Z suffix for each file listed in the commandline arguments: thus file1.Z, file2.Z, etc.
+
+
+Compress.c also takes several commandline flag arguments. These are provided, prefixed with a -, before any filenames. So one might run Compress thus:
+
+
+Compress -t -c file1 file2...
+
+
+or
+
+
+Compress -tcb file1 file2...
+
+
+The meaning of each argument flag is:
+
+
+t
+
+Dump the content of the LZW dictionary BST, expressing symbols as integer values, as each symbol is processed. (Recall from prior coursework that a small recursive function is a good way to dump a BST in sorted order.)
+
+
+c
+
+Show each individual code as it's sent to the CodeSink.
+
+
+b
+
+Announce each increase in bits per code as it occurs.
+
+
+r
+
+Announce each dictionary recycle as it occurs
+
+
+s
+
+Announce space used after each file is compressed, and after all files are compressed and the freelist is cleared. Each post-file space report assumes that the dynamically allocated space for the .Z filename is still unfreed; you should allocate just enough space for that name.
+
+
+All flag-generated output is to stdout, not stderr. When several flags are set, for each code, first give the code, then the tree, then either recycle or bit count increase, if any.
+Debugging with commandline arguments
+
+You must match the output of my model executable exactly, per the rules for Bender submission, and that includes matching my output for each commandline argument. You can see the format of that output by running the supplied Compress executable with the flag arguments.
+
+This is an additional requirement, but it's also meant as an aide to debugging. When you write an app this complex, you instrument it for testing – you add additional code for the sole purpose of testing. Use the commandline arguments to compare your tree with mine, to check that you're advancing bit counts, doing recycling, etc.
+Supplied .o Files
+
+I have also supplied a Compress.o file. You must be able to compile your .c files on Unix with my Compress.o file and produce a correctly working executable:
+
+
+gcc Compress.o LZWCmp.c SmartAlloc.c CodeSet.c (my Compress with your LZWCmp)

@@ -1,0 +1,6 @@
+echo diffing test16 output
+./Compress -tcbrs myfi16.in > my16.out
+diff my16.out test16.out
+echo diffing test16 files
+diff myfi16.in.Z test16.in.Z
+printf "\n"

@@ -1,0 +1,129 @@
+#include <stdlib.h>
+#include <assert.h>
+#include <string.h>
+#include <stdio.h>
+
+#include "SmartAlloc.h"
+#include "CodeSet.h"
+
+typedef struct CodeEntry {
+   char val;
+   short numCalls;
+   struct CodeEntry *prior;
+   int numPrior;
+   char *string;   
+} CodeEntry;
+
+typedef struct CodeSet {
+   CodeEntry *start;
+   int total;
+   int full;
+} CodeSet;
+
+void *CreateCodeSet(int numCodes) {   
+   CodeSet *setPtr = malloc(sizeof(CodeSet));
+   
+   setPtr->start = calloc(sizeof(CodeEntry), numCodes);
+   setPtr->total = numCodes;
+   setPtr->full = 0;     
+   
+   return setPtr;
+}
+
+int NewCode(void *codeSet, char val) {   
+   int index = 0;   
+   
+   CodeSet *set = codeSet;     
+   
+   assert(set->full < set->total);
+   
+   while (index < set->full)
+      index++;
+      
+   set->start[index].val = val;
+   set->full++;
+   
+   return index;   
+}
+
+int ExtendCode(void *codeSet, int oldCode) {
+   int index;   
+   
+   CodeSet *set = codeSet;  
+   
+   assert(oldCode >= 0 && oldCode < set->full && set->full < set->total);        
+  
+   index = NewCode(set, 0);   
+   set->start[index].prior = &set->start[oldCode];   
+   set->start[index].numPrior = set->start[oldCode].numPrior + 1;
+   
+   return index;
+}
+
+void SetSuffix(void *codeSet, int code, char suffix) {
+   ((CodeSet *)codeSet)->start[code].val = suffix;
+}
+
+Code GetCode(void *codeSet, int code) {    
+   int index;
+   
+   CodeSet *set = codeSet;
+   Code codeStruct;
+   
+   CodeEntry current = set->start[code];   
+   
+   set->start[code].numCalls++;
+   codeStruct.size = set->start[code].numPrior + 1;
+   index = codeStruct.size - 1;  
+   
+   if (set->start[code].numCalls == 1) {
+      codeStruct.data = malloc(sizeof(char) * codeStruct.size);           
+   
+      do {      
+         codeStruct.data[index--] = current.val;      
+         if (current.prior) 
+            current = *current.prior;          
+      } while (index >= 0);        
+   
+      set->start[code].string = codeStruct.data;       
+   }
+   else {   
+      do {      
+         set->start[code].string[index--] = current.val;            
+         if (current.prior) 
+            current = *current.prior;          
+      } while (index >= 0);        
+   
+      codeStruct.data = set->start[code].string;
+   }      
+   
+   return codeStruct;
+}
+
+void FreeCode(void *codeSet, int code) {
+   CodeSet *set = codeSet; 
+  
+   if (set->start[code].numCalls > 1) {
+      set->start[code].numCalls--;
+   }
+   else {
+      free(set->start[code].string);
+      set->start[code].numCalls = 0;
+   }
+}
+
+void DestroyCodeSet(void *codeSet) {
+   CodeSet *set = codeSet;
+   int index = 0;
+   
+   while (index < set->total) {
+      if (set->start[index].numCalls) {
+         free(set->start[index].string);
+         set->start[index].numCalls = 0;
+      }
+      index++;
+   }      
+   free(set->start);
+   free(set);    
+}  
+
